@@ -39,7 +39,7 @@ var (
 	FuncTagUA FuncTag = func(c *fiber.Ctx, d *data) interface{} {
 		return c.Get(fiber.HeaderUserAgent)
 	}
-	FuncTagBody FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagReqBody FuncTag = func(c *fiber.Ctx, d *data) interface{} {
 		return c.Body()
 	}
 	FuncTagBytesReceived FuncTag = func(c *fiber.Ctx, d *data) interface{} {
@@ -146,8 +146,8 @@ func getFuncTagMap(cfg Config, d *data) map[string]FuncTag {
 			m[TagURL] = FuncTagURL
 		case TagUA:
 			m[TagUA] = FuncTagUA
-		case TagBody:
-			m[TagBody] = FuncTagBody
+		case TagReqBody:
+			m[TagReqBody] = FuncTagReqBody
 		case TagBytesReceived:
 			m[TagBytesReceived] = FuncTagBytesReceived
 		case TagBytesSent:

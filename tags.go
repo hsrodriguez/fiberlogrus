@@ -23,7 +23,7 @@ const (
 	// request user-agent
 	TagUA = "ua"
 	// request body
-	TagBody = "body"
+	TagReqBody = "reqBody"
 	// request body bytes length
 	TagBytesReceived = "bytesReceived"
 	// response bytes length
@@ -72,7 +72,7 @@ var CommonTags []string = []string{
 	TagPath,
 	TagURL,
 	TagUA,
-	TagBody,
+	TagReqBody,
 	TagBytesReceived,
 	TagBytesSent,
 	TagRoute,
