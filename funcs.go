@@ -86,6 +86,27 @@ var (
 		}
 		return []byte(strings.Join(resHeaders, "&"))
 	}
+	FuncTagReqHeadersString = func(c *fiber.Ctx, d *data) interface{}{
+		reqHeaders := make([]string, 0)
+		for k, v := range c.GetReqHeaders() {
+			reqHeaders = append(reqHeaders, k+"="+v)
+		}
+		return strings.Join(reqHeaders, "&")
+	}
+	FuncTagReqBodyString = func(c *fiber.Ctx, d *data) interface{}{		
+		return string(c.Body())
+	}
+	FuncTagResHeadersString = func(c *fiber.Ctx, d *data) interface{}{		
+		resHeaders := make([]string, 0)
+		for k, v := range c.GetRespHeaders() {
+			resHeaders = append(resHeaders, k+"="+v)
+		}
+		return strings.Join(resHeaders, "&")
+	}
+	FuncTagResBodyString = func(c *fiber.Ctx, d *data) interface{}{		
+		return string(c.Response().Body())
+	}
+
 	FuncTagReqHeader = func(extra string) FuncTag {
 		return func(c *fiber.Ctx, d *data) interface{} {
 			return c.Get(extra)
@@ -177,6 +198,14 @@ func getFuncTagMap(cfg Config, d *data) map[string]FuncTag {
 			m[TagLatency] = FuncTagLatency
 		case TagResHeaders:
 			m[TagResHeaders] = FuncTagResHeaders
+		case TagReqHeadersString:
+			m[TagReqHeadersString] = FuncTagReqHeadersString
+		case TagReqBodyString:
+			m[TagReqBodyString] = FuncTagReqBodyString
+		case TagResHeadersString:
+			m[TagResHeadersString] = FuncTagResHeadersString
+		case TagResBodyString:
+			m[TagResBodyString] = FuncTagResBodyString
 		default:
 			for _, v := range KeyTags {
 				if strings.Contains(t, v) {

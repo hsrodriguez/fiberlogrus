@@ -46,6 +46,14 @@ const (
 	TagLatency = "latency"
 	// response headers
 	TagResHeaders = "resHeaders"
+	// request headers string
+	TagReqHeadersString = "reqHeadersString"
+	// request body string
+	TagReqBodyString = "reqBodyString"
+	// response headers string
+	TagResHeadersString = "resHeadersString"
+	// response body string
+	TagResBodyString = "resBodyString"
 )
 
 // Key Tags
@@ -86,6 +94,10 @@ var CommonTags []string = []string{
 	TagPid,
 	TagLatency,
 	TagResHeaders,
+	TagReqHeadersString,
+	TagReqBodyString,
+	TagResHeadersString,
+	TagResBodyString,
 }
 
 var KeyTags []string = []string{
