@@ -112,7 +112,7 @@ var (
 			return c.Get(extra)
 		}
 	}
-	FuncTagRespHeader = func(extra string) FuncTag {
+	FuncTagResHeader = func(extra string) FuncTag {
 		return func(c *fiber.Ctx, d *data) interface{} {
 			return c.GetRespHeader(extra)
 		}
@@ -213,8 +213,8 @@ func getFuncTagMap(cfg Config, d *data) map[string]FuncTag {
 					switch a[0] {
 					case TagReqHeader:
 						m[TagReqHeader] = FuncTagReqHeader(a[1])
-					case TagRespHeader:
-						m[TagRespHeader] = FuncTagRespHeader(a[1])
+					case TagResHeader:
+						m[TagResHeader] = FuncTagResHeader(a[1])
 					case TagQuery:
 						m[TagQuery] = FuncTagQuery(a[1])
 					case TagForm:

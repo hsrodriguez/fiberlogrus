@@ -29,7 +29,7 @@ func TestLogger(t *testing.T) {
 				TagMethod,
 				TagStatus,
 				AttachKeyTag(TagLocals, "loc"),
-				AttachKeyTag(TagRespHeader, "custom-header"),
+				AttachKeyTag(TagResHeader, "custom-header"),
 			},
 		}))
 

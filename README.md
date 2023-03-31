@@ -161,7 +161,7 @@ const (
 	// request specified header
 	TagReqHeader = "reqHeader"
 	// response specified header
-	TagRespHeader = "respHeader"
+	TagResHeader = "respHeader"
 	// request specified query
 	TagQuery = "query"
 	// request specified form value
