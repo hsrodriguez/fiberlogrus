@@ -44,6 +44,8 @@ const (
 	TagPid = "pid"
 	// request latency
 	TagLatency = "latency"
+	// response headers
+	TagResHeaders = "resHeaders"
 )
 
 // Key Tags
@@ -83,6 +85,7 @@ var CommonTags []string = []string{
 	TagMethod,
 	TagPid,
 	TagLatency,
+	TagResHeaders,
 }
 
 var KeyTags []string = []string{

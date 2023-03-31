@@ -142,6 +142,8 @@ const (
 	TagPid = "pid"
 	// request latency
 	TagLatency = "latency"
+	// response headers
+	TagResHeaders = "resHeaders"
 )
 ```
 #### Key

@@ -79,6 +79,13 @@ var (
 	FuncTagLatency FuncTag = func(c *fiber.Ctx, d *data) interface{} {
 		return d.end.Sub(d.start).String()
 	}
+	FuncTagResHeaders = func(c *fiber.Ctx, d *data) interface{}{
+		resHeaders := make([]string, 0)
+		for k, v := range c.GetRespHeaders() {
+			resHeaders = append(resHeaders, k+"="+v)
+		}
+		return []byte(strings.Join(resHeaders, "&"))
+	}
 	FuncTagReqHeader = func(extra string) FuncTag {
 		return func(c *fiber.Ctx, d *data) interface{} {
 			return c.Get(extra)
@@ -168,6 +175,8 @@ func getFuncTagMap(cfg Config, d *data) map[string]FuncTag {
 			m[TagPid] = FuncTagPid
 		case TagLatency:
 			m[TagLatency] = FuncTagLatency
+		case TagResHeaders:
+			m[TagResHeaders] = FuncTagResHeaders
 		default:
 			for _, v := range KeyTags {
 				if strings.Contains(t, v) {
