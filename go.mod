@@ -1,4 +1,4 @@
-module github.com/mikhail-bigun/fiberlogrus
+module github.com/hsrodriguez/fiberlogrus
 
 go 1.19
 

@@ -11,7 +11,7 @@ Use your configured `logrus` logger instance or global logrus instance to handle
 
 ## Getting started
 ```bash
-$ go get github.com/mikhail-bigun/fiberlogrus
+$ go get github.com/hsrodriguez/fiberlogrus
 ```
 ## Signatures
 ```go
@@ -23,7 +23,7 @@ Import required packages
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
-	"github.com/mikhail-bigun/fiberlogrus"
+	"github.com/hsrodriguez/fiberlogrus"
 )
 ```
 ### Default config
