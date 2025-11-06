@@ -8,132 +8,132 @@ import (
 )
 
 // FuncTag is a function used to populate logrus field
-type FuncTag func(c *fiber.Ctx, d *data) interface{}
+type FuncTag func(c *fiber.Ctx, d *data) any
 
 // predefined FuncTag functions
 var (
-	FuncTagReferer FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagReferer FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Get(fiber.HeaderReferer)
 	}
-	FuncTagProtocol FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagProtocol FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Protocol()
 	}
-	FuncTagPort FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagPort FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Port()
 	}
-	FuncTagIP FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagIP FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.IP()
 	}
-	FuncTagIPs FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagIPs FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Get(fiber.HeaderXForwardedFor)
 	}
-	FuncTagHost FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagHost FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Hostname()
 	}
-	FuncTagPath FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagPath FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Path()
 	}
-	FuncTagURL FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagURL FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.OriginalURL()
 	}
-	FuncTagUA FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagUA FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Get(fiber.HeaderUserAgent)
 	}
-	FuncTagReqBody FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagReqBody FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Body()
 	}
-	FuncTagBytesReceived FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagBytesReceived FuncTag = func(c *fiber.Ctx, d *data) any {
 		return len(c.Request().Body())
 	}
-	FuncTagBytesSent FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagBytesSent FuncTag = func(c *fiber.Ctx, d *data) any {
 		if c.Response().Header.ContentLength() < 0 {
 			return 0
 		}
 		return len(c.Response().Body())
 	}
-	FuncTagRoute FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagRoute FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Route().Path
 	}
-	FuncTagResBody FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagResBody FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Response().Body()
 	}
-	FuncTagReqHeaders FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagReqHeaders FuncTag = func(c *fiber.Ctx, d *data) any {
 		reqHeaders := make([]string, 0)
 		for k, v := range c.GetReqHeaders() {
 			reqHeaders = append(reqHeaders, k+"="+v)
 		}
 		return []byte(strings.Join(reqHeaders, "&"))
 	}
-	FuncTagQueryStringParams FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagQueryStringParams FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Request().URI().QueryArgs().String()
 	}
-	FuncTagStatus FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagStatus FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Response().StatusCode()
 	}
-	FuncTagMethod FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagMethod FuncTag = func(c *fiber.Ctx, d *data) any {
 		return c.Method()
 	}
-	FuncTagPid FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagPid FuncTag = func(c *fiber.Ctx, d *data) any {
 		return d.pid
 	}
-	FuncTagLatency FuncTag = func(c *fiber.Ctx, d *data) interface{} {
+	FuncTagLatency FuncTag = func(c *fiber.Ctx, d *data) any {
 		return d.end.Sub(d.start).String()
 	}
-	FuncTagResHeaders = func(c *fiber.Ctx, d *data) interface{}{
+	FuncTagResHeaders = func(c *fiber.Ctx, d *data) any {
 		resHeaders := make([]string, 0)
 		for k, v := range c.GetRespHeaders() {
-			resHeaders = append(resHeaders, k+"="+v)
+			resHeaders = append(resHeaders, fmt.Sprintf("%s=%s", k, v))
 		}
 		return []byte(strings.Join(resHeaders, "&"))
 	}
-	FuncTagReqHeadersString = func(c *fiber.Ctx, d *data) interface{}{
+	FuncTagReqHeadersString = func(c *fiber.Ctx, d *data) any {
 		reqHeaders := make([]string, 0)
 		for k, v := range c.GetReqHeaders() {
-			reqHeaders = append(reqHeaders, k+"="+v)
+			reqHeaders = append(reqHeaders, fmt.Sprintf("%s=%s", k, v))
 		}
 		return strings.Join(reqHeaders, "&")
 	}
-	FuncTagReqBodyString = func(c *fiber.Ctx, d *data) interface{}{		
+	FuncTagReqBodyString = func(c *fiber.Ctx, d *data) any {
 		return string(c.Body())
 	}
-	FuncTagResHeadersString = func(c *fiber.Ctx, d *data) interface{}{		
+	FuncTagResHeadersString = func(c *fiber.Ctx, d *data) any {
 		resHeaders := make([]string, 0)
 		for k, v := range c.GetRespHeaders() {
-			resHeaders = append(resHeaders, k+"="+v)
+			resHeaders = append(resHeaders, fmt.Sprintf("%s=%s", k, v))
 		}
 		return strings.Join(resHeaders, "&")
 	}
-	FuncTagResBodyString = func(c *fiber.Ctx, d *data) interface{}{		
+	FuncTagResBodyString = func(c *fiber.Ctx, d *data) any {
 		return string(c.Response().Body())
 	}
 
 	FuncTagReqHeader = func(extra string) FuncTag {
-		return func(c *fiber.Ctx, d *data) interface{} {
+		return func(c *fiber.Ctx, d *data) any {
 			return c.Get(extra)
 		}
 	}
 	FuncTagResHeader = func(extra string) FuncTag {
-		return func(c *fiber.Ctx, d *data) interface{} {
+		return func(c *fiber.Ctx, d *data) any {
 			return c.GetRespHeader(extra)
 		}
 	}
 	FuncTagQuery = func(extra string) FuncTag {
-		return func(c *fiber.Ctx, d *data) interface{} {
+		return func(c *fiber.Ctx, d *data) any {
 			return c.Query(extra)
 		}
 	}
 	FuncTagForm = func(extra string) FuncTag {
-		return func(c *fiber.Ctx, d *data) interface{} {
+		return func(c *fiber.Ctx, d *data) any {
 			return c.FormValue(extra)
 		}
 	}
 	FuncTagCookie = func(extra string) FuncTag {
-		return func(c *fiber.Ctx, d *data) interface{} {
+		return func(c *fiber.Ctx, d *data) any {
 			return c.Cookies(extra)
 		}
 	}
 	FuncTagLocals = func(extra string) FuncTag {
-		return func(c *fiber.Ctx, d *data) interface{} {
+		return func(c *fiber.Ctx, d *data) any {
 			switch v := c.Locals(extra).(type) {
 			case []byte:
 				return string(v)
